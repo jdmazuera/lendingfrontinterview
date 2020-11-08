@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  front:
+    container_name: react-front
+    build: front
+    volumes:
+      - ./front/app/:/lendingfront
+    ports:
+      - 3001:3000
