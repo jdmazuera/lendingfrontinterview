@@ -1,31 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react'
-import Form from './Form'
+import LoanForm from './Form'
 import LoanResponse from './LoanResponse'
+import axios from 'axios'
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            'show_form': true
+            loan_status: false
         }
     }
 
-    submitLoanRequest = () => {
-        this.setState({ show_form: false })
+    submitLoanRequest = (requested_amount) => {
+        axios.get(`http://localhost:8888/loan/check_availability/`,{
+            params: {
+                'requested_amount' : requested_amount
+            },
+
+        }).then(res => {
+            const { loan_status } = res.data;
+            this.setState({ loan_status });
+        })
     }
 
     render() {
-        if (this.state.show_form) {
-            var form = <Form submitLoanRequest={this.submitLoanRequest} />
-            var loan_response = <p></p>
-        }
-        else {
-            var form = <span />
-            var loan_response = <LoanResponse/> 
-        }
+        const loan_form = !this.state.loan_status ? (<LoanForm submitLoanRequest={this.submitLoanRequest} />) : (null);
+        const loan_response = this.state.loan_status ? (<LoanResponse loan_status={this.state.loan_status}/>) : (null);
 
         return (
             <div className="container-fluid">
@@ -37,7 +39,7 @@ class App extends React.Component {
                     </div>
                 </div>
                 <div className="container">
-                    {form}
+                    {loan_form}
                     {loan_response}
                 </div>
             </div>
