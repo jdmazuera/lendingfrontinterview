@@ -30,5 +30,6 @@ if __name__ == "__main__":
     application = tornado.web.Application([
         (r"/loan/check_availability/",LoanAvailability)
     ])
-    application.listen(8888)
-    tornado.ioloop.IOLoop.current().start()
+    http_server = tornado.httpserver.HTTPServer(application)
+    http_server.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()

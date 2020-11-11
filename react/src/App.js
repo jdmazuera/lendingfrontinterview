@@ -1,4 +1,3 @@
-import './App.css';
 import React from 'react'
 import LoanForm from './Form'
 import LoanResponse from './LoanResponse'
