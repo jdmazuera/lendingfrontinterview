@@ -24,9 +24,13 @@ class App extends React.Component {
         })
     }
 
+    resetLoanStatus = () => {
+        this.setState({ loan_status : false });
+    }
+
     render() {
         const loan_form = !this.state.loan_status ? (<LoanForm submitLoanRequest={this.submitLoanRequest} />) : (null);
-        const loan_response = this.state.loan_status ? (<LoanResponse loan_status={this.state.loan_status}/>) : (null);
+        const loan_response = this.state.loan_status ? (<LoanResponse loan_status={this.state.loan_status} resetLoanStatus={this.resetLoanStatus}/>) : (null);
 
         return (
             <div className="container-fluid">
